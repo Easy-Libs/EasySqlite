@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/Easy-Libs'
     gitUrl = 'https://github.com/Easy-Libs'
 
-    libraryVersion = '1.0'
+    libraryVersion = '1.0.1'
 
     developerId = 'easy-libs'
     developerName = 'Easy Libs'
