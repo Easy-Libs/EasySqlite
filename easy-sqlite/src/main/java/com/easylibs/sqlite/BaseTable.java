@@ -1,6 +1,5 @@
 package com.easylibs.sqlite;
 
-import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -24,17 +23,13 @@ public abstract class BaseTable {
     /**
      * Get the global instance of the SQLiteDatabase.
      *
-     * @param pApplication
+     * @param pContext
+     * @param pEasySQLiteHelper
      * @param pTableName
      */
-    public BaseTable(Application pApplication, String pTableName) {
-        if (pApplication instanceof EasySQLiteHelper) {
-            EasySQLiteHelper easySQLiteHelper = (EasySQLiteHelper) pApplication;
-            EasySQLiteOpenHelper easySQLiteOpenHelper = EasySQLiteOpenHelper.getInstance(pApplication, easySQLiteHelper);
-            mWritableDatabase = easySQLiteOpenHelper.getWritableDatabase();
-        } else {
-            throw new RuntimeException("pApplication must implement EasySQLiteHelper.");
-        }
+    public BaseTable(Context pContext, EasySQLiteHelper pEasySQLiteHelper, String pTableName) {
+        EasySQLiteOpenHelper easySQLiteOpenHelper = EasySQLiteOpenHelper.getInstance(pContext, pEasySQLiteHelper);
+        mWritableDatabase = easySQLiteOpenHelper.getWritableDatabase();
         mTableName = pTableName;
     }
 

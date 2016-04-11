@@ -1,7 +1,7 @@
-package com.easylibs.sqlite.example.data;
+package com.easylibs.sqlite.example.database;
 
-import android.app.Application;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
@@ -36,10 +36,10 @@ public class EmployeeTable extends BaseTable {
     }
 
     /**
-     * @param pApplication
+     * @param pContext
      */
-    public EmployeeTable(Application pApplication) {
-        super(pApplication, TABLE_NAME_EMPLOYEES);
+    public EmployeeTable(Context pContext) {
+        super(pContext, DbOneEasySQLiteHelper.getInstance(), TABLE_NAME_EMPLOYEES);
     }
 
 

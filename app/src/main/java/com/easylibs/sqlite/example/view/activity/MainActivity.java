@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.easylibs.sqlite.IModel;
 import com.easylibs.sqlite.example.R;
-import com.easylibs.sqlite.example.data.EmployeeTable;
+import com.easylibs.sqlite.example.database.EmployeeTable;
 import com.easylibs.sqlite.example.model.EmployeeModel;
 
 import java.util.ArrayList;
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<IModel> list = employeeTable.getAllData();
         if (list == null || list.isEmpty()) {
             Log.v(LOG_TAG, "No employees found.");
+            return;
         }
         for (IModel model : list) {
             Log.v(LOG_TAG, model.toString());
