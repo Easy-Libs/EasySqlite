@@ -1,10 +1,9 @@
 package com.easylibs.sqlite.example.view.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.easylibs.sqlite.IModel;
 import com.easylibs.sqlite.example.R;
 import com.easylibs.sqlite.example.database.EmployeeTable;
 import com.easylibs.sqlite.example.model.EmployeeModel;
@@ -22,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
         EmployeeTable employeeTable = new EmployeeTable(getApplication());
 
+        Log.v(LOG_TAG, "Employees Count: " + employeeTable.getRowsCount());
+
+
         EmployeeModel employeeModel = new EmployeeModel();
         employeeModel.setEmpId("emp1");
         employeeModel.setName("Test Name");
@@ -38,12 +40,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void printAllEmployees(EmployeeTable employeeTable) {
-        ArrayList<IModel> list = employeeTable.getAllData();
+        ArrayList<EmployeeModel> list = employeeTable.getAllData();
         if (list == null || list.isEmpty()) {
             Log.v(LOG_TAG, "No employees found.");
             return;
         }
-        for (IModel model : list) {
+        for (EmployeeModel model : list) {
             Log.v(LOG_TAG, model.toString());
         }
     }

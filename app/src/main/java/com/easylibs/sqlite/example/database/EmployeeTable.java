@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.easylibs.sqlite.BaseTable;
-import com.easylibs.sqlite.IModel;
 import com.easylibs.sqlite.example.model.EmployeeModel;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by sachin.gupta on 05-04-2016.
  */
-public class EmployeeTable extends BaseTable {
+public class EmployeeTable extends BaseTable<EmployeeModel> {
 
     private static final String TABLE_NAME_EMPLOYEES = "employee_table";
 
@@ -44,34 +43,24 @@ public class EmployeeTable extends BaseTable {
 
 
     @Override
-    protected ContentValues getContentValues(IModel pModel, IModel pExistingModel) {
-        EmployeeModel existingModel = null;
-        if (pExistingModel instanceof EmployeeModel) {
-            existingModel = (EmployeeModel) pExistingModel;
-        }
-        EmployeeModel newOrUpdatedModel;
-        if (pModel instanceof EmployeeModel) {
-            newOrUpdatedModel = (EmployeeModel) pModel;
-        } else {
-            return null;
-        }
+    protected ContentValues getContentValues(EmployeeModel pNewOrUpdatedModel, EmployeeModel pExistingModel) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(CN_EMP_ID, newOrUpdatedModel.getEmpId());
-        if (existingModel == null
-                || existingModel.getName() == null
-                || (newOrUpdatedModel.getName() != null && newOrUpdatedModel.getName().equals(existingModel.getName()))) {
-            contentValues.put(CN_NAME, newOrUpdatedModel.getName());
+        contentValues.put(CN_EMP_ID, pNewOrUpdatedModel.getEmpId());
+        if (pExistingModel == null
+                || pExistingModel.getName() == null
+                || (pNewOrUpdatedModel.getName() != null && pNewOrUpdatedModel.getName().equals(pExistingModel.getName()))) {
+            contentValues.put(CN_NAME, pNewOrUpdatedModel.getName());
         }
-        if (existingModel == null || existingModel.getAge() != newOrUpdatedModel.getAge()) {
-            contentValues.put(CN_AGE, newOrUpdatedModel.getAge());
+        if (pExistingModel == null || pExistingModel.getAge() != pNewOrUpdatedModel.getAge()) {
+            contentValues.put(CN_AGE, pNewOrUpdatedModel.getAge());
         }
 
         return contentValues;
     }
 
     @Override
-    protected ArrayList<IModel> getAllData(String pSelection, String[] pSelectionArgs) {
-        ArrayList<IModel> modelsList = null;
+    protected ArrayList<EmployeeModel> getAllData(String pSelection, String[] pSelectionArgs) {
+        ArrayList<EmployeeModel> modelsList = null;
         Cursor cursor = null;
         try {
             // query(table, columns, selection, selectionArgs, groupBy, having, orderBy)
@@ -80,7 +69,7 @@ public class EmployeeTable extends BaseTable {
             if (cursor.getCount() <= 0) {
                 return null;
             }
-            modelsList = new ArrayList<IModel>(cursor.getCount());
+            modelsList = new ArrayList<>(cursor.getCount());
             while (cursor.moveToNext()) {
                 EmployeeModel model = new EmployeeModel();
                 model.setRowId(cursor.getLong(cursor.getColumnIndex(CN_ROW_ID)));
@@ -98,16 +87,10 @@ public class EmployeeTable extends BaseTable {
     }
 
     @Override
-    protected IModel getMatchingData(IModel pModel) {
-        EmployeeModel empModel;
-        if (pModel instanceof EmployeeModel) {
-            empModel = (EmployeeModel) pModel;
-        } else {
-            return null;
-        }
+    protected EmployeeModel getMatchingData(EmployeeModel pModel) {
         String whereClause = CN_EMP_ID + " = ?";
-        String[] whereArgs = {"" + empModel.getEmpId()};
-        ArrayList<IModel> list = getAllData(whereClause, whereArgs);
+        String[] whereArgs = {"" + pModel.getEmpId()};
+        ArrayList<EmployeeModel> list = getAllData(whereClause, whereArgs);
         return (list == null || list.isEmpty()) ? null : list.get(0);
     }
 }

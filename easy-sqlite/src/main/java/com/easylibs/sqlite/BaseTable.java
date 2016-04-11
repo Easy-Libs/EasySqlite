@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author sachin.gupta
  */
-public abstract class BaseTable {
+public abstract class BaseTable<T extends IModel> {
 
     protected static final String CN_ROW_ID = "rowid";
 
@@ -37,7 +37,7 @@ public abstract class BaseTable {
      * @param pModel
      * @return the rowId of newly inserted row, -1 in case of any error
      */
-    public final long insertData(IModel pModel) {
+    public final long insertData(T pModel) {
         try {
             return mWritableDatabase.insert(mTableName, null, getContentValues(pModel, null));
         } catch (Exception e) {
@@ -52,8 +52,8 @@ public abstract class BaseTable {
      * @param pModel
      * @return
      */
-    public final boolean insertOrUpdate(IModel pModel) {
-        IModel existingModel = getMatchingData(pModel);
+    public final boolean insertOrUpdate(T pModel) {
+        T existingModel = getMatchingData(pModel);
         if (existingModel == null) {
             return insertData(pModel) > 0;
         } else {
@@ -109,20 +109,20 @@ public abstract class BaseTable {
     /**
      * update data by primary key
      *
-     * @param IModel
+     * @param pUpdatedModel
      * @param pExistingModel
      * @return count of affected rows
      */
-    public final int updateData(IModel IModel, IModel pExistingModel) {
+    public final int updateData(T pUpdatedModel, T pExistingModel) {
         String whereClause = CN_ROW_ID + " = ?";
         String[] whereArgs = {"" + pExistingModel.getRowId()};
-        return updateData(getContentValues(IModel, pExistingModel), whereClause, whereArgs);
+        return updateData(getContentValues(pUpdatedModel, pExistingModel), whereClause, whereArgs);
     }
 
     /**
      * @return array list of all data in table
      */
-    public final ArrayList<IModel> getAllData() {
+    public final ArrayList<T> getAllData() {
         return getAllData(null, null);
     }
 
@@ -144,7 +144,7 @@ public abstract class BaseTable {
         try {
             cursor = mWritableDatabase.rawQuery(query, null);
             if (cursor.moveToNext()) {
-                rowsCount = cursor.getInt(cursor.getColumnIndex(columnName));
+                rowsCount = cursor.getInt(0);
             }
         } catch (Exception e) {
             Log.e(mTableName, "getRowsCount()", e);
@@ -160,31 +160,32 @@ public abstract class BaseTable {
      * @param pCursor
      */
     protected final void closeCursor(Cursor pCursor) {
-        if (pCursor != null && !pCursor.isClosed())
+        if (pCursor != null && !pCursor.isClosed()) {
             pCursor.close();
+        }
     }
 
     /**
-     * Helper method to create content value from IModel
+     * Helper method to create content value from pNewOrUpdatedModel
      *
-     * @param pModel
+     * @param pNewOrUpdatedModel
      * @param pExistingModel
      * @return
      */
-    protected abstract ContentValues getContentValues(IModel pModel, IModel pExistingModel);
+    protected abstract ContentValues getContentValues(T pNewOrUpdatedModel, T pExistingModel);
 
     /**
      * @param pSelection
      * @param pSelectionArgs
      * @return array list of data selected from table
      */
-    protected abstract ArrayList<IModel> getAllData(String pSelection, String[] pSelectionArgs);
+    protected abstract ArrayList<T> getAllData(String pSelection, String[] pSelectionArgs);
 
     /**
      * @param pModel
      * @return
      */
-    protected IModel getMatchingData(IModel pModel) {
+    protected T getMatchingData(T pModel) {
         throw new UnsupportedOperationException("Operation not implemented yet.");
     }
 }
