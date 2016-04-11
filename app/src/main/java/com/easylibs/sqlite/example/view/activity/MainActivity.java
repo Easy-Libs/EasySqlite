@@ -4,8 +4,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.easylibs.sqlite.BaseTable;
+import com.easylibs.sqlite.IModel;
 import com.easylibs.sqlite.example.R;
+import com.easylibs.sqlite.example.database.DepartmentTable;
 import com.easylibs.sqlite.example.database.EmployeeTable;
+import com.easylibs.sqlite.example.model.DepartmentModel;
 import com.easylibs.sqlite.example.model.EmployeeModel;
 
 import java.util.ArrayList;
@@ -19,10 +23,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        EmployeeTable employeeTable = new EmployeeTable(getApplication());
+        EmployeeTable employeeTable = new EmployeeTable(this);
 
         Log.v(LOG_TAG, "Employees Count: " + employeeTable.getRowsCount());
-
 
         EmployeeModel employeeModel = new EmployeeModel();
         employeeModel.setEmpId("emp1");
@@ -30,22 +33,30 @@ public class MainActivity extends AppCompatActivity {
 
         employeeTable.insertOrUpdate(employeeModel);
 
-        printAllEmployees(employeeTable);
+        printRows(employeeTable);
 
         employeeModel.setName(null);
         employeeModel.setAge(20);
         employeeTable.insertOrUpdate(employeeModel);
 
-        printAllEmployees(employeeTable);
+        printRows(employeeTable);
+
+        DepartmentTable departmentTable = new DepartmentTable(this);
+        DepartmentModel departmentModel = new DepartmentModel();
+        departmentModel.setDeptId("dep1");
+        departmentModel.setName("Development");
+        departmentTable.insertOrUpdate(departmentModel);
+
+        printRows(departmentTable);
     }
 
-    private void printAllEmployees(EmployeeTable employeeTable) {
-        ArrayList<EmployeeModel> list = employeeTable.getAllData();
+    private void printRows(BaseTable pAnyTable) {
+        ArrayList<IModel> list = pAnyTable.getAllData();
         if (list == null || list.isEmpty()) {
-            Log.v(LOG_TAG, "No employees found.");
+            Log.v(LOG_TAG, "No record found.");
             return;
         }
-        for (EmployeeModel model : list) {
+        for (IModel model : list) {
             Log.v(LOG_TAG, model.toString());
         }
     }

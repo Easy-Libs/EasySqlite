@@ -17,7 +17,7 @@ public class EmployeeTable extends BaseTable<EmployeeModel> {
 
     private static final String TABLE_NAME_EMPLOYEES = "employee_table";
 
-    public static final String CREATE_TABLE_EMPLOYEE;
+    public static final String SQL_CREATE_TABLE;
 
     private static final String CN_EMP_ID = "emp_id";
     private static final String CN_NAME = "name";
@@ -30,8 +30,8 @@ public class EmployeeTable extends BaseTable<EmployeeModel> {
         String c1 = CN_ROW_ID + " integer primary key, ";
         String c3 = CN_EMP_ID + " text not null, ";
         String c2 = CN_NAME + " text not null, ";
-        String c4 = CN_AGE + " integer)";
-        CREATE_TABLE_EMPLOYEE = createTable + c1 + c2 + c3 + c4;
+        String c4 = CN_AGE + " integer )";
+        SQL_CREATE_TABLE = createTable + c1 + c2 + c3 + c4;
     }
 
     /**

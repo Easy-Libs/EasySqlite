@@ -7,18 +7,18 @@ import com.easylibs.sqlite.EasySQLiteHelper;
 /**
  * Created by sachin.gupta on 05-04-2016.
  */
-public class DbOneEasySQLiteHelper implements EasySQLiteHelper {
+public class DbTwoEasySQLiteHelper implements EasySQLiteHelper {
 
-    private static DbOneEasySQLiteHelper sInstance;
+    private static DbTwoEasySQLiteHelper sInstance;
 
     /**
      * NO synchronization, as even singleton is not strictly required
      *
      * @return
      */
-    public static DbOneEasySQLiteHelper getInstance() {
+    public static DbTwoEasySQLiteHelper getInstance() {
         if (sInstance == null) {
-            sInstance = new DbOneEasySQLiteHelper();
+            sInstance = new DbTwoEasySQLiteHelper();
         }
         return sInstance;
     }
@@ -26,13 +26,13 @@ public class DbOneEasySQLiteHelper implements EasySQLiteHelper {
     /**
      * private constructor for singleton
      */
-    private DbOneEasySQLiteHelper() {
+    private DbTwoEasySQLiteHelper() {
         //  nothing to do here
     }
 
     @Override
     public String getDbName() {
-        return "example_app_db_one";
+        return "example_app_db_two";
     }
 
     @Override
@@ -42,7 +42,7 @@ public class DbOneEasySQLiteHelper implements EasySQLiteHelper {
 
     @Override
     public String[] getCreateTableQueries() {
-        return new String[]{EmployeeTable.SQL_CREATE_TABLE};
+        return new String[]{DepartmentTable.SQL_CREATE_TABLE};
     }
 
     @Override

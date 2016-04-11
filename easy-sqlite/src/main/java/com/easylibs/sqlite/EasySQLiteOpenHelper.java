@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.HashMap;
+
 /**
  * Helper class to execute create table queries when installed.
  *
@@ -14,17 +16,22 @@ public class EasySQLiteOpenHelper extends SQLiteOpenHelper {
 
     private static final String LOG_TAG = EasySQLiteOpenHelper.class.getSimpleName();
 
-    private static EasySQLiteOpenHelper mEasySQLiteOpenHelper;
+    private static HashMap<String, EasySQLiteOpenHelper> mEasySQLiteOpenHelpersMap;
 
     /**
      * @param pContext
      * @return
      */
     public static synchronized EasySQLiteOpenHelper getInstance(Context pContext, EasySQLiteHelper pEasySQLiteHelper) {
-        if (mEasySQLiteOpenHelper == null) {
-            mEasySQLiteOpenHelper = new EasySQLiteOpenHelper(pContext, pEasySQLiteHelper);
+        if (mEasySQLiteOpenHelpersMap == null) {
+            mEasySQLiteOpenHelpersMap = new HashMap<>();
         }
-        return mEasySQLiteOpenHelper;
+        EasySQLiteOpenHelper instance = mEasySQLiteOpenHelpersMap.get(pEasySQLiteHelper.getDbName());
+        if (instance == null) {
+            instance = new EasySQLiteOpenHelper(pContext, pEasySQLiteHelper);
+            mEasySQLiteOpenHelpersMap.put(pEasySQLiteHelper.getDbName(), instance);
+        }
+        return instance;
     }
 
     private EasySQLiteHelper mEasySQLiteHelper;
