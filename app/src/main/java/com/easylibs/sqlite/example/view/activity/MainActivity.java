@@ -45,8 +45,11 @@ public class MainActivity extends AppCompatActivity {
         DepartmentModel departmentModel = new DepartmentModel();
         departmentModel.setDeptId("dep1");
         departmentModel.setName("Development");
-        departmentTable.insertOrUpdate(departmentModel);
+        long rowId = departmentTable.insertData(departmentModel);
 
+        printRows(departmentTable);
+
+        departmentTable.deleteData(rowId);
         printRows(departmentTable);
     }
 

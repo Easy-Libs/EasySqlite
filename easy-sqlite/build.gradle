@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/Easy-Libs'
     gitUrl = 'https://github.com/Easy-Libs'
 
-    libraryVersion = '1.0.1'
+    libraryVersion = '1.0.2'
 
     developerId = 'easy-libs'
     developerName = 'Easy Libs'
@@ -32,7 +32,7 @@ android {
         minSdkVersion 8
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.2"
     }
     buildTypes {
         release {

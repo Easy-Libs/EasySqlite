@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public abstract class BaseTable<T extends IModel> {
 
-    protected static final String CN_ROW_ID = "rowid";
+    protected static final String CN_ROW_ID = "_ID";
 
     protected SQLiteDatabase mWritableDatabase;
     protected String mTableName;
@@ -83,7 +83,7 @@ public abstract class BaseTable<T extends IModel> {
      * @param pPrimaryKey
      * @return true if one or more rows are deleted
      */
-    public final boolean deleteData(int pPrimaryKey) {
+    public final boolean deleteData(long pPrimaryKey) {
         String whereClause = CN_ROW_ID + " = ?";
         String[] whereArgs = {"" + pPrimaryKey};
         return deleteData(whereClause, whereArgs) > 0;
