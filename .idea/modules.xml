@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/EasySqliteExample.iml" filepath="$PROJECT_DIR$/EasySqliteExample.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/easy-sqlite/easy-sqlite.iml" filepath="$PROJECT_DIR$/easy-sqlite/easy-sqlite.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/EasySqliteDev.iml" filepath="$PROJECT_DIR$/.idea/EasySqliteDev.iml" />
     </modules>
   </component>
 </project>
